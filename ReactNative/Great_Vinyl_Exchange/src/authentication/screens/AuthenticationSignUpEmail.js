@@ -26,7 +26,7 @@ class AuthenticationSignUpEmail extends Component {
     if (this.isEmailValid()) {
       Keyboard.dismiss()
       this.props.setEmail(this.state.email);
-      this.props.navigation.navigate('AuthenticationSignUpUsername');
+      this.props.navigation.navigate('AuthenticationSignUpPassword');
     } else {
       this.setState({ emailError: true })
     }
