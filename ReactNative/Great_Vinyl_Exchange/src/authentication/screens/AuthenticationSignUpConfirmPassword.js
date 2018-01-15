@@ -40,15 +40,13 @@ class AuthenticationSignUpConfirmPassword extends Component {
   onJoinButtonPress() {
     this.setState({ confirmPasswordError: false })
     if (this._isConfirmPasswordValid()) {
-      const { email, address, username } = this.props;
+      const { email } = this.props;
       Keyboard.dismiss()
       this.props.setPassword(this.state.confirmPassword);
       const user = { 
         email,
-        username,
-        address,
       }; 
-      this.props.registerUser(new User(email, username, address), this.state.confirmPassword);
+      this.props.registerUser(new User(email), this.state.confirmPassword);
     } else {
       this.setState({ confirmPasswordError: true })
     }
@@ -148,8 +146,6 @@ const styles = {
 const mapStateToProps = ({ authentication }) => {
     const { email,
             password,
-            username,
-            address,
             firebaseError, 
             isLoading,
             isResponseSuccessful,
@@ -157,8 +153,6 @@ const mapStateToProps = ({ authentication }) => {
     return {
         email,
         password,
-        username,
-        address,
         firebaseError,
         isLoading,
         isResponseSuccessful,
