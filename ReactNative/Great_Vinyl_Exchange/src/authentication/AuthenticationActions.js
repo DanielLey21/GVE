@@ -3,13 +3,13 @@ import { NavigationActions } from 'react-navigation';
 
 const { 
     AUTHENTICATION_SET_EMAIL,
-    AUTHENTICATION_SET_USERNAME,
-    AUTHENTICATION_SET_PASSWORD, 
-    AUTHENTICATION_SET_ADDRESS, 
+    AUTHENTICATION_SET_PASSWORD,  
     AUTHENTICATION_REGISTER_USER,
     AUTHENTICATION_REGISTER_USER_SUCCESS, 
     AUTHENTICATION_REGISTER_USER_FAIL,
     AUTHENTICATION_ADD_USER_SUCCESS,
+    AUTHENTICATION_LOGIN_USER,
+    AUTHENTICATION_LOGIN_USER_SUCCESS,
 } = require('../resources/ActionConstants').default;
 
 export const setEmail = (email) => {
@@ -19,24 +19,10 @@ export const setEmail = (email) => {
     };
 };
 
-export const setUsername = (username) => {
-    return {
-        type: AUTHENTICATION_SET_USERNAME,
-        payload: username
-    };
-};
-
 export const setPassword = (password) => {
     return {
         type: AUTHENTICATION_SET_PASSWORD,
         payload: password
-    };
-};
-
-export const setAddress = (address) => {
-    return {
-        type: AUTHENTICATION_SET_ADDRESS,
-        payload: address
     };
 };
 
@@ -49,6 +35,17 @@ export const registerUser = (user, password) => {
                 registerUserFail(dispatch, error);
             });
     };
+}
+
+export const loginUser = (email, password) => {
+    return (dispatch) => {
+        dispatch({type: AUTHENTICATION_LOGIN_USER})
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(user => loginUserSuccess(dispatch, user))
+            .catch(function(error) {
+                registerUserFail(dispatch, error);
+            });
+    }
 }
 
 const registerUserFail = (dispatch, error) => {
@@ -64,6 +61,15 @@ const registerUserSuccess = (dispatch, user) => {
         type: AUTHENTICATION_REGISTER_USER_SUCCESS,
         payload: user
     });
+};
+
+
+const loginUserSuccess = (dispatch, user) => {
+    dispatch({
+        type: AUTHENTICATION_LOGIN_USER_SUCCESS,
+        payload: user
+    });
+    dispatch(NavigationActions.navigate({routeName: 'AuthenticationMain'}));
 };
 
 const addUserToDatabase = (dispatch, user) => {

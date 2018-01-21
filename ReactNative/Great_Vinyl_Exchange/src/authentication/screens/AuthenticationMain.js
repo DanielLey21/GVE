@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, Image } from 'react-native';
+import { View, Text, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import { OrangeButton } from '../../common-components';
@@ -10,6 +10,10 @@ class AuthenticationMain extends Component {
 
   onSignUpButtonPress() {
     this.props.navigation.navigate('AuthenticationSignUpEmail');
+  }
+
+  onSignInButtonPress() {
+    this.props.navigation.navigate('AuthenicationSignIn');
   }
   
   render() {
@@ -35,7 +39,10 @@ class AuthenticationMain extends Component {
 
             <View style={styles.signInTextContainer}>
               <Text style={styles.signInPrimaryText}>Already have an account? </Text>
-              <Text style={styles.signInSecondaryText}>Sign in</Text>
+              <TouchableOpacity
+                onPress={this.onSignInButtonPress.bind(this)}>
+                <Text style={styles.signInSecondaryText}>Sign in</Text>
+              </TouchableOpacity>
             </View>
 
           </View>

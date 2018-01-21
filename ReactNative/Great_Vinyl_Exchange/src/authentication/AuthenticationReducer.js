@@ -7,6 +7,8 @@ const {
     AUTHENTICATION_REGISTER_USER_SUCCESS, 
     AUTHENTICATION_REGISTER_USER_FAIL,
     AUTHENTICATION_ADD_USER_SUCCESS,
+    AUTHENTICATION_LOGIN_USER,
+    AUTHENTICATION_LOGIN_USER_SUCCESS,
 } = require('../resources/ActionConstants').default;
 
 const INITIAL_STATE = { email: '',
@@ -29,13 +31,17 @@ export default (state = INITIAL_STATE, action) => {
         case AUTHENTICATION_SET_PASSWORD:
             return { ...state, password: action.payload };
         case AUTHENTICATION_REGISTER_USER:
-            return { ...state, isLoading: true, error: '' }; 
+            return { ...state, isLoading: true, error: '', firebaseError: '' }; 
         case AUTHENTICATION_REGISTER_USER_SUCCESS:
             return { ...state, ...INITIAL_STATE, user: action.payload };
         case AUTHENTICATION_REGISTER_USER_FAIL: 
-            return { ...state, isLoading: false, firebaseError: action.payload };
+            return { ...state, isLoading: false, isResponseComplete: true, firebaseError: action.payload };
         case AUTHENTICATION_ADD_USER_SUCCESS:
-            return { ...state, isLoading: false, userProfile: action.payload };
+            return { ...state, isLoading: false, isResponseComplete: true, userProfile: action.payload };
+        case AUTHENTICATION_LOGIN_USER: 
+            return { ...state, isLoading: true, error: '', firebaseError: '' }; 
+        case AUTHENTICATION_LOGIN_USER_SUCCESS:
+            return { ...state, isLoading:true, isResponseComplete: true, user: action.payload };
         default:
             return state;
     }
