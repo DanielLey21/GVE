@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
-import { OrangeButton } from '../../common-components';
+import { PrimaryRedButton } from '../../common-components';
+import theme from '../../styles/theme';
 import { Style, em } from '../../styles/styles';
 
 
@@ -18,24 +19,24 @@ class AuthenticationMain extends Component {
   
   render() {
       return (
-        <ImageBackground source={require('../../resources/images/authentication_bg.jpg')} style={styles.backgroundImageContainer}>
+        <View style={styles.backgroundContainer}>
           <View style={styles.viewContainer}>
 
-            <View style={styles.logoImageContainer}>
-              <Image source={require('../../resources/images/gve_logo.png')} style={styles.logoImage} />
-            </View>
+             <View style={styles.logoImageContainer}>
+              <Image 
+                resizeMode="center"
+                source={require('../../resources/images/GVElogo.png')} 
+                style={styles.logoImage}
+              />
+            </View> 
 
-            <View style={styles.titleLabelContainer}>
-              <Text style={styles.titleLabel}>THE GREAT</Text>
-              <Text style={styles.titleLabel}>VINYL</Text>
-              <Text style={styles.titleLabel}>EXCHANGE</Text>
+             <View style={styles.buttonContainer}>
+              <PrimaryRedButton
+                  style={styles.buttonContainer} 
+                  onPress={this.onSignUpButtonPress.bind(this)}>
+                      SignUp  
+              </PrimaryRedButton>
             </View>
-
-            <OrangeButton
-                style={styles.buttonContainer} 
-                onPress={this.onSignUpButtonPress.bind(this)}>
-                    SignUp  
-            </OrangeButton>
 
             <View style={styles.signInTextContainer}>
               <Text style={styles.signInPrimaryText}>Already have an account? </Text>
@@ -43,21 +44,21 @@ class AuthenticationMain extends Component {
                 onPress={this.onSignInButtonPress.bind(this)}>
                 <Text style={styles.signInSecondaryText}>Sign in</Text>
               </TouchableOpacity>
-            </View>
+            </View>   
 
           </View>
-        </ImageBackground>
+        </View>
       );
     }
 }
 
 const styles = {
-  backgroundImageContainer: {
+  backgroundContainer: {
     flex: 1,
     width: undefined,
     height: undefined,
     alignItems: 'center',
-    opacity: .9,
+    backgroundColor: theme.cream,
   },
   viewContainer: {
     flex: 1,
@@ -67,42 +68,22 @@ const styles = {
   },
   logoImageContainer: {
     flex: 1,
-    alignItems: 'center',
-    marginTop: em(5),
-    marginBottom: em(12)
+    justifyContent: 'flex-start',
   },
   logoImage: {
-    resizeMode: 'contain',
-    width: 223,
-    height: 198,
-  },
-  titleLabelContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginBottom: em(11),
-  },
-  titleLabel: {
-    fontSize: 40,
-    backgroundColor: 'rgba(0,0,0,0)',
-    color: 'white',
-    fontWeight: '400'
-  },
-  buttonContainer: {
-    flex: 1,
-    width: null,
+    flex: 1
   },
   signInTextContainer: {
-    flex: 1,
     flexDirection: 'row',
     backgroundColor: 'rgba(0,0,0,0)',
     marginTop: em(4),
+    marginBottom: em(1),
   },
   signInPrimaryText: {
     color: '#454651'
   },
   signInSecondaryText: {
-    color: '#ffffff'
+    color: theme.primaryRed
   }
 };
 

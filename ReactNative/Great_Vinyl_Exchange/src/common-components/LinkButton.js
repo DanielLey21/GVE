@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
+import theme from '../styles/theme';
+
 const LinkButton = ({ onPress, children }) => {
     const { buttonStyle, textStyle } = styles;
 
@@ -15,7 +17,7 @@ const styles = {
     textStyle: {
         alignSelf: 'center',
         justifyContent: 'center',
-        color: '#ffffff',
+        color: theme.primaryRed,
         fontSize: 17,
         paddingTop: 15,
     },

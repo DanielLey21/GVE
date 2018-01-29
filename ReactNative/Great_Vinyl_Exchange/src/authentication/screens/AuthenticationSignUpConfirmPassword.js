@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { 
   View, 
-  ImageBackground, 
   Keyboard, 
   Alert
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { BackButtonHeader, InputField, OrangeButton, Spinner } from '../../common-components';
+import { BackButtonHeader, InputField, PrimaryRedButton, Spinner } from '../../common-components';
+import theme from '../../styles/theme';
 import { em } from '../../styles/styles';
 import { setPassword, registerUser } from '../AuthenticationActions';
 import User from '../../models/User';
@@ -76,20 +76,21 @@ class AuthenticationSignUpConfirmPassword extends Component {
   }
 
   render() {
-    const { backgroundImageContainer, inputContainer, buttonContainer } = styles
+    const { backgroundContainer, inputContainer, buttonContainer } = styles
+    const isPasswordEmpty = this.state.confirmPassword.length === 0;
 
     if (this.props.isLoading) {
       return (
-        <ImageBackground source={require('../../resources/images/authentication_bg.jpg')} style={backgroundImageContainer}>
+        <View style={backgroundContainer}>
           <View>
             {this.props.isLoading && this._renderSpinner()}
           </View>
-        </ImageBackground>
+        </View>
       );
     }
 
     return (
-      <ImageBackground source={require('../../resources/images/authentication_bg.jpg')} style={backgroundImageContainer}>
+      <View style={backgroundContainer}>
           <BackButtonHeader onPress={this.onBackButtonPress.bind(this)} />
           
           <View style={inputContainer}>
@@ -108,30 +109,30 @@ class AuthenticationSignUpConfirmPassword extends Component {
             {this.props.isLoading && this._renderSpinner()}
           </View>
 
-          <View style={buttonContainer}>
-            <OrangeButton 
+          <View style={isPasswordEmpty ? [buttonContainer, { opacity: 0.5 }] : buttonContainer}>
+            <PrimaryRedButton 
               style={buttonContainer} 
-              onPress={this.onJoinButtonPress.bind(this)}>
+              onPress={!isPasswordEmpty && this.onJoinButtonPress.bind(this)}>
                   Join the Great Vinyl Exchange
-            </OrangeButton>
+            </PrimaryRedButton>
           </View>  
 
           <View>
             {this.state.firebaseError && this._renderAuthenticationAlertMessage()}
           </View>
-      </ImageBackground>
+      </View>
     );
   }
 }
 
 const styles = {
-  backgroundImageContainer: {
+  backgroundContainer: {
     flex: 1,
+    backgroundColor: theme.cream,
     width: undefined,
     height: undefined,
     alignItems: 'center',
     justifyContent: 'center',
-    opacity: .8,
   },
   inputContainer: {
     marginTop: em(4.75),
