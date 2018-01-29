@@ -1,4 +1,4 @@
-export * from './OrangeButton';
+export * from './PrimaryRedButton';
 export * from './BackButtonHeader';
 export * from './InputField';
 export * from './LinkButton';

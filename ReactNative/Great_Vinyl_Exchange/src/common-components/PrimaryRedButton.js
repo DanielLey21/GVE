@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
-const OrangeButton = ({ onPress, children }) => {
+const PrimaryRedButton = ({ onPress, children }) => {
     const { buttonStyle, textStyle } = styles;
 
     return (
@@ -22,11 +22,11 @@ const styles = {
     },
     buttonStyle: {
         alignSelf: 'stretch',
-        backgroundColor: '#fc8802',
+        backgroundColor: '#CC3333',
         borderRadius: 25,
         height: 50,
         width: 340
     }
 };
 
-export { OrangeButton };
+export { PrimaryRedButton };

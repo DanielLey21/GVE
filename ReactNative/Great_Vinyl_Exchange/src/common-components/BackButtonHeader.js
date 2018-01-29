@@ -1,6 +1,8 @@
 // Import libraries for making a component
 import React from 'react';
-import { Image, View, Text, TouchableOpacity } from 'react-native';
+import { Image, View, TouchableOpacity } from 'react-native';
+
+import theme from '../styles/theme';
 
 
 const BackButtonHeader = ({ onPress }) => {
@@ -9,7 +11,11 @@ const BackButtonHeader = ({ onPress }) => {
     return (
         <View style={viewStyle}>
             <TouchableOpacity onPress={onPress}>
-                <Image source={require('../resources/images/back-arrow.png')} style={backButtonStyle}/>
+                <Image 
+                    source={require('../resources/images/back-arrow_black.png')} 
+                    style={backButtonStyle}
+                    resizeMode='contain'
+                    />
             </TouchableOpacity>
         </View>
     );
@@ -21,7 +27,7 @@ const styles = {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        height: 60,
+        height: undefined,
         padding: 15,
         paddingTop: 25,
         elevation: 2,

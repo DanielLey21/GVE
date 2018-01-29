@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, ImageBackground, Keyboard  } from 'react-native';
+import { View, Keyboard  } from 'react-native';
 import { connect } from 'react-redux';
 
 import { BackButtonHeader, InputField, LinkButton } from '../../common-components';
+import theme from '../../styles/theme';
 import { em } from '../../styles/styles';
 import { setPassword } from '../AuthenticationActions';
 
@@ -37,9 +38,10 @@ class AuthenticationSignUpPassword extends Component {
   }
 
   render() {
-    const { backgroundImageContainer, inputContainer, buttonContainer } = styles
+    const { backgroundContainer, inputContainer, buttonContainer } = styles;
+    const isPasswordEmpty = this.state.password.length === 0;
     return (
-      <ImageBackground source={require('../../resources/images/authentication_bg.jpg')} style={backgroundImageContainer}>
+      <View style={backgroundContainer}>
           <BackButtonHeader onPress={this.onBackButtonPress.bind(this)} />
           
           <View style={inputContainer}>
@@ -54,26 +56,26 @@ class AuthenticationSignUpPassword extends Component {
             />
           </View>
 
-          <View style={buttonContainer}>
+          <View style={isPasswordEmpty ? [buttonContainer, { opacity: 0.5 }] : buttonContainer}>
             <LinkButton 
               style={buttonContainer} 
-              onPress={this.onNextButtonPress.bind(this)}>
+              onPress={!isPasswordEmpty && this.onNextButtonPress.bind(this)}>
                   Next
             </LinkButton>
           </View>  
-      </ImageBackground>
+      </View>
     );
   }
 }
 
 const styles = {
-  backgroundImageContainer: {
+  backgroundContainer: {
     flex: 1,
+    backgroundColor: theme.cream,
     width: undefined,
     height: undefined,
     alignItems: 'center',
     justifyContent: 'center',
-    opacity: .8,
   },
   inputContainer: {
     marginTop: em(4.75),

@@ -7,7 +7,8 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators }from 'redux'; 
 
-import { BackButtonHeader, InputField, OrangeButton, Spinner } from '../../common-components';
+import { BackButtonHeader, InputField, PrimaryRedButton, Spinner } from '../../common-components';
+import theme from '../../styles/theme';
 import { em } from '../../styles/styles';
 import * as authenticationActions from '../AuthenticationActions';
 import User from '../../models/User';
@@ -87,21 +88,22 @@ class AuthenticationSignIn extends Component {
   }
 
   render() {
-    const { backgroundImageContainer, emailContainer, passwordContainer, buttonContainer } = styles;
+    const { backgroundContainer, emailContainer, passwordContainer, buttonContainer } = styles;
     if (this.props.isLoading) {
       return (
-        <ImageBackground source={require('../../resources/images/authentication_bg.jpg')} style={backgroundImageContainer}>
+        <View style={backgroundContainer}>
           <View>
             {this.props.isLoading && this._renderSpinner()}
           </View>
-        </ImageBackground>
+        </View>
       );
     }
 
     const { emailError, passwordError } = this._displayError();
+    const areFieldsEmpty = this.state.email.length === 0 || this.state.password.length === 0;
 
     return (
-      <ImageBackground source={require('../../resources/images/authentication_bg.jpg')} style={backgroundImageContainer}>
+      <View style={backgroundContainer}>
           <BackButtonHeader onPress={this.onBackButtonPress.bind(this)} />
           
           <View style={emailContainer}>
@@ -131,30 +133,30 @@ class AuthenticationSignIn extends Component {
             {this.props.isLoading && this._renderSpinner()}
           </View>
 
-          <View style={buttonContainer}>
-            <OrangeButton 
+          <View style={areFieldsEmpty ? [buttonContainer, { opacity: 0.5 }] : buttonContainer}>
+            <PrimaryRedButton 
               style={buttonContainer} 
-              onPress={this._onSignInPressed.bind(this)}>
+              onPress={!areFieldsEmpty && this._onSignInPressed.bind(this)}>
                   Sign into the Great Vinyl Exchange
-            </OrangeButton>
+            </PrimaryRedButton>
           </View>  
 
           <View>
              {this.state.showErrorModal && this._renderAuthenticationAlertMessage()} 
           </View>
-      </ImageBackground>
+      </View>
     );
   }
 }
 
 const styles = {
-  backgroundImageContainer: {
+  backgroundContainer: {
     flex: 1,
+    backgroundColor: theme.cream,
     width: undefined,
     height: undefined,
     alignItems: 'center',
     justifyContent: 'center',
-    opacity: .8,
   },
   emailContainer: {
     marginTop: em(4.75),
