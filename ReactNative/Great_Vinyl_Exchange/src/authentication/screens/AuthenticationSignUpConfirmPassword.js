@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { BackButtonHeader, InputField, PrimaryRedButton, Spinner } from '../../common-components';
+import { BackButtonHeader, InputField, PrimaryRedButton, Loader } from '../../common-components';
 import theme from '../../styles/theme';
 import { em } from '../../styles/styles';
 import { setPassword, registerUser } from '../AuthenticationActions';
@@ -23,6 +23,8 @@ class AuthenticationSignUpConfirmPassword extends Component {
 
   constructor(props) {
     super(props);
+
+    this.onJoinButtonPress = this.onJoinButtonPress.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -38,8 +40,9 @@ class AuthenticationSignUpConfirmPassword extends Component {
   }
 
   onJoinButtonPress() {
+    const isPasswordEmpty = this.state.confirmPassword.length === 0;
     this.setState({ confirmPasswordError: false })
-    if (this._isConfirmPasswordValid()) {
+    if (this._isConfirmPasswordValid() || isPasswordEmpty) {
       const { email } = this.props;
       Keyboard.dismiss()
       this.props.setPassword(this.state.confirmPassword);
@@ -68,29 +71,17 @@ class AuthenticationSignUpConfirmPassword extends Component {
 
   _renderAuthenticationAlertMessage() {
     const { firebaseError } = this.props;
-    return Alert.alert(firebaseError.message);
-  }
-
-  _renderSpinner() {
-    return (<Spinner size="large" />);
+    return Alert.alert('Registration Error', firebaseError.message);
   }
 
   render() {
     const { backgroundContainer, inputContainer, buttonContainer } = styles
     const isPasswordEmpty = this.state.confirmPassword.length === 0;
 
-    if (this.props.isLoading) {
-      return (
-        <View style={backgroundContainer}>
-          <View>
-            {this.props.isLoading && this._renderSpinner()}
-          </View>
-        </View>
-      );
-    }
-
     return (
       <View style={backgroundContainer}>
+          <Loader
+            loading={this.props.isLoading} />
           <BackButtonHeader onPress={this.onBackButtonPress.bind(this)} />
           
           <View style={inputContainer}>
@@ -105,20 +96,16 @@ class AuthenticationSignUpConfirmPassword extends Component {
             />
           </View>
 
-          <View>
-            {this.props.isLoading && this._renderSpinner()}
-          </View>
-
           <View style={isPasswordEmpty ? [buttonContainer, { opacity: 0.5 }] : buttonContainer}>
             <PrimaryRedButton 
               style={buttonContainer} 
-              onPress={!isPasswordEmpty && this.onJoinButtonPress.bind(this)}>
+              onPress={() => this.onJoinButtonPress()}>
                   Join the Great Vinyl Exchange
             </PrimaryRedButton>
           </View>  
 
           <View>
-            {this.state.firebaseError && this._renderAuthenticationAlertMessage()}
+            {!!this.state.firebaseError && this._renderAuthenticationAlertMessage()}
           </View>
       </View>
     );

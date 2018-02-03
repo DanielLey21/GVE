@@ -7,11 +7,10 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators }from 'redux'; 
 
-import { BackButtonHeader, InputField, PrimaryRedButton, Spinner } from '../../common-components';
+import { BackButtonHeader, InputField, PrimaryRedButton, Loader } from '../../common-components';
 import theme from '../../styles/theme';
 import { em } from '../../styles/styles';
 import * as authenticationActions from '../AuthenticationActions';
-import User from '../../models/User';
 
 const mapDispatchToProps = dispatch => ({
   authenticationActions: bindActionCreators(authenticationActions, dispatch),
@@ -42,9 +41,9 @@ class AuthenticationSignIn extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-      if (nextProps.firebaseError !== this.props.firebaseError) {
-        this.setState({ firebaseError: nextProps.firebaseError, showErrorModal: true });
-      }
+    if (nextProps.firebaseError !== this.props.firebaseError) {
+      this.setState({ firebaseError: nextProps.firebaseError, showErrorModal: true });
+    }
   }
 
   onBackButtonPress() {
@@ -80,30 +79,18 @@ class AuthenticationSignIn extends Component {
   _renderAuthenticationAlertMessage() {
     const { firebaseError } = this.props;
     this.setState({ showErrorModal: false });
-    return Alert.alert(firebaseError.message);
-  }
-
-  _renderSpinner() {
-    return (<Spinner size="large" />);
+    return Alert.alert('Login Error', firebaseError.message);
   }
 
   render() {
     const { backgroundContainer, emailContainer, passwordContainer, buttonContainer } = styles;
-    if (this.props.isLoading) {
-      return (
-        <View style={backgroundContainer}>
-          <View>
-            {this.props.isLoading && this._renderSpinner()}
-          </View>
-        </View>
-      );
-    }
-
     const { emailError, passwordError } = this._displayError();
     const areFieldsEmpty = this.state.email.length === 0 || this.state.password.length === 0;
 
     return (
       <View style={backgroundContainer}>
+          <Loader
+            loading={this.props.isLoading} /> 
           <BackButtonHeader onPress={this.onBackButtonPress.bind(this)} />
           
           <View style={emailContainer}>
@@ -127,10 +114,6 @@ class AuthenticationSignIn extends Component {
               showError={passwordError.showError}
               secureTextEntry={true}
             />
-          </View>
-
-          <View>
-            {this.props.isLoading && this._renderSpinner()}
           </View>
 
           <View style={areFieldsEmpty ? [buttonContainer, { opacity: 0.5 }] : buttonContainer}>

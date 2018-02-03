@@ -23,12 +23,13 @@ class AuthenticationSignUpEmail extends Component {
   }
 
   onNextButtonPress() {
+    const isEmailEmpty = this.state.email.length === 0;
     this.setState({ emailError: false })
-    if (this.isEmailValid()) {
+    if (this.isEmailValid() && !isEmailEmpty) {
       Keyboard.dismiss()
       this.props.setEmail(this.state.email);
       this.props.navigation.navigate('AuthenticationSignUpPassword');
-    } else {
+    } else if (this.isEmailValid()) {
       this.setState({ emailError: true })
     }
   }
@@ -59,7 +60,7 @@ class AuthenticationSignUpEmail extends Component {
           <View style={isEmailEmpty ? [buttonContainer, { opacity: 0.5 }] : buttonContainer}>
             <LinkButton 
               style={buttonContainer} 
-              onPress={!isEmailEmpty && this.onNextButtonPress.bind(this)}>
+              onPress={this.onNextButtonPress.bind(this)}>
                   Next
             </LinkButton>
           </View>  
