@@ -23,12 +23,13 @@ class AuthenticationSignUpPassword extends Component {
   }
 
   onNextButtonPress() {
+    const isPasswordEmpty = this.state.password.length === 0;
     this.setState({ passwordError: false })
-    if (this.isPasswordValid()) {
+    if (this.isPasswordValid() && !isPasswordEmpty) {
       Keyboard.dismiss()
       this.props.setPassword(this.state.password);
       this.props.navigation.navigate('AuthenticationSignUpConfirmPassword');
-    } else {
+    } else if (this.isPasswordValid()) {
       this.setState({ passwordError: true })
     }
   }
@@ -59,7 +60,7 @@ class AuthenticationSignUpPassword extends Component {
           <View style={isPasswordEmpty ? [buttonContainer, { opacity: 0.5 }] : buttonContainer}>
             <LinkButton 
               style={buttonContainer} 
-              onPress={!isPasswordEmpty && this.onNextButtonPress.bind(this)}>
+              onPress={this.onNextButtonPress.bind(this)}>
                   Next
             </LinkButton>
           </View>  

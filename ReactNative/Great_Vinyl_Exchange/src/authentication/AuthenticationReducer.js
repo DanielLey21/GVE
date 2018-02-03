@@ -39,9 +39,9 @@ export default (state = INITIAL_STATE, action) => {
         case AUTHENTICATION_ADD_USER_SUCCESS:
             return { ...state, isLoading: false, isResponseComplete: true, userProfile: action.payload };
         case AUTHENTICATION_LOGIN_USER: 
-            return { ...state, isLoading: true, error: '', firebaseError: '' }; 
+            return { ...state, isLoading: true, error: undefined, firebaseError: undefined }; 
         case AUTHENTICATION_LOGIN_USER_SUCCESS:
-            return { ...state, isLoading:true, isResponseComplete: true, user: action.payload };
+            return { ...state, isLoading: false, isResponseComplete: true, user: action.payload };
         default:
             return state;
     }
