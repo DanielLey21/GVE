@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { 
   View, 
   Keyboard, 
-  Alert
+  Alert,
+  InteractionManager
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -18,7 +19,7 @@ class AuthenticationSignUpConfirmPassword extends Component {
     confirmPassword: '', 
     confirmPasswordError: false, 
     confirmPasswordErrorMessage: "Your paswords don't match",
-    firebaseError: this.props.firebaseError,
+    firebaseError: undefined,
   }; 
 
   constructor(props) {
@@ -28,9 +29,22 @@ class AuthenticationSignUpConfirmPassword extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.firebaseError !== null) {
+    if (!!nextProps.firebaseError && !!nextProps.firebaseError.message) {
+      
       this.setState({
         firebaseError: nextProps.firebaseError,
+      });
+
+      InteractionManager.runAfterInteractions(() => {
+        setTimeout(() => {
+          Alert.alert(
+            'Registration Error', 
+            nextProps.firebaseError.message,
+            [
+              {text: 'Ok'},
+            ]
+          );
+        });
       });
     }
   }
@@ -69,11 +83,6 @@ class AuthenticationSignUpConfirmPassword extends Component {
     return "To help you remember";
   }
 
-  _renderAuthenticationAlertMessage() {
-    const { firebaseError } = this.props;
-    return Alert.alert('Registration Error', firebaseError.message);
-  }
-
   render() {
     const { backgroundContainer, inputContainer, buttonContainer } = styles
     const isPasswordEmpty = this.state.confirmPassword.length === 0;
@@ -103,10 +112,6 @@ class AuthenticationSignUpConfirmPassword extends Component {
                   Join the Great Vinyl Exchange
             </PrimaryRedButton>
           </View>  
-
-          <View>
-            {!!this.state.firebaseError && this._renderAuthenticationAlertMessage()}
-          </View>
       </View>
     );
   }

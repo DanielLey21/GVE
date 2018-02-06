@@ -50,7 +50,7 @@ class AuthenticationSignUpEmail extends Component {
             <InputField 
               onChangeText={email => this.setState({ email })}
               onSubmitEditing={this.onNextButtonPress.bind(this)}
-              placeholder="Enter you email address"
+              placeholder="Enter your email address"
               value={this.state.email}
               label={!this.state.emailError ? "We won't share it with anyone" : this.state.emailErrorMessage}
               showError={this.state.emailError}

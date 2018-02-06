@@ -12,7 +12,7 @@ const BackButtonHeader = ({ onPress }) => {
         <View style={viewStyle}>
             <TouchableOpacity onPress={onPress}>
                 <Image 
-                    source={require('../resources/images/back-arrow_black.png')} 
+                    source={require('../resources/images/arrow.png')} 
                     style={backButtonStyle}
                     resizeMode='contain'
                     />
