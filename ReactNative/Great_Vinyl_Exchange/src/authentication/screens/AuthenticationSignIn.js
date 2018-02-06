@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { 
-  View, 
-  ImageBackground, 
-  Alert
+  View,
+  Alert,
+  InteractionManager
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators }from 'redux'; 
@@ -32,8 +32,7 @@ class AuthenticationSignIn extends Component {
   state = {
     email: '',
     password: '',
-    firebaseError: this.props.firebaseError,
-    showErrorModal: false,
+    isLoading: false,
   }; 
 
   constructor(props) {
@@ -41,8 +40,18 @@ class AuthenticationSignIn extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.firebaseError !== this.props.firebaseError) {
-      this.setState({ firebaseError: nextProps.firebaseError, showErrorModal: true });
+    if (!!nextProps.firebaseError && this.props.firebaseError !== nextProps.firebaseError) {
+      InteractionManager.runAfterInteractions(() => {
+        setTimeout(() => {
+            Alert.alert(
+              'Login Error', 
+              nextProps.firebaseError.message,
+              [
+                {text: 'Ok'},
+              ]
+            );
+        });
+      });
     }
   }
 
@@ -76,12 +85,6 @@ class AuthenticationSignIn extends Component {
     return { emailError, passwordError}
   }
 
-  _renderAuthenticationAlertMessage() {
-    const { firebaseError } = this.props;
-    this.setState({ showErrorModal: false });
-    return Alert.alert('Login Error', firebaseError.message);
-  }
-
   render() {
     const { backgroundContainer, emailContainer, passwordContainer, buttonContainer } = styles;
     const { emailError, passwordError } = this._displayError();
@@ -89,8 +92,8 @@ class AuthenticationSignIn extends Component {
 
     return (
       <View style={backgroundContainer}>
-          <Loader
-            loading={this.props.isLoading} /> 
+          {this.props.isLoading && <Loader />}
+          
           <BackButtonHeader onPress={this.onBackButtonPress.bind(this)} />
           
           <View style={emailContainer}>
@@ -123,10 +126,6 @@ class AuthenticationSignIn extends Component {
                   Sign into the Great Vinyl Exchange
             </PrimaryRedButton>
           </View>  
-
-          <View>
-             {this.state.showErrorModal && this._renderAuthenticationAlertMessage()} 
-          </View>
       </View>
     );
   }

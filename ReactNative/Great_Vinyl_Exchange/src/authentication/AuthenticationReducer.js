@@ -1,8 +1,6 @@
 const { 
     AUTHENTICATION_SET_EMAIL,
-    AUTHENTICATION_SET_USERNAME,
     AUTHENTICATION_SET_PASSWORD, 
-    AUTHENTICATION_SET_ADDRESS, 
     AUTHENTICATION_REGISTER_USER,
     AUTHENTICATION_REGISTER_USER_SUCCESS, 
     AUTHENTICATION_REGISTER_USER_FAIL,
@@ -12,26 +10,21 @@ const {
 } = require('../resources/ActionConstants').default;
 
 const INITIAL_STATE = { email: '',
-                        username: '',
-                        address: '', 
                         password: '', 
                         user: null,
                         userProfile: null,
                         isLoading: false,
+                        firebaseError: undefined,
                      };
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case AUTHENTICATION_SET_EMAIL:
-            return { ...state, email: action.payload };
-        case AUTHENTICATION_SET_USERNAME:
-            return { ...state, username: action.payload };
-        case AUTHENTICATION_SET_ADDRESS:
-            return { ...state, address: action.payload };
+            return { ...state, ...INITIAL_STATE, email: action.payload };
         case AUTHENTICATION_SET_PASSWORD:
             return { ...state, password: action.payload };
         case AUTHENTICATION_REGISTER_USER:
-            return { ...state, isLoading: true, error: '', firebaseError: '' }; 
+            return { ...state, isLoading: true }; 
         case AUTHENTICATION_REGISTER_USER_SUCCESS:
             return { ...state, ...INITIAL_STATE, user: action.payload };
         case AUTHENTICATION_REGISTER_USER_FAIL: 
@@ -39,7 +32,7 @@ export default (state = INITIAL_STATE, action) => {
         case AUTHENTICATION_ADD_USER_SUCCESS:
             return { ...state, isLoading: false, isResponseComplete: true, userProfile: action.payload };
         case AUTHENTICATION_LOGIN_USER: 
-            return { ...state, isLoading: true, error: undefined, firebaseError: undefined }; 
+            return { ...state, isLoading: true }; 
         case AUTHENTICATION_LOGIN_USER_SUCCESS:
             return { ...state, isLoading: false, isResponseComplete: true, user: action.payload };
         default:

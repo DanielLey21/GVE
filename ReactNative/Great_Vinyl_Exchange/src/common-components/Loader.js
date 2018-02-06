@@ -6,24 +6,31 @@ import {
   ActivityIndicator
 } from 'react-native';
 
+import theme from '../styles/theme';
+
 const Loader = props => {
 
     const {
         loading,
-        ...attributes,
     } = props;
 
     return (
-        <Modal
-            visible={loading}>
+       <Modal
+        transparent={true}
+        animationType={'none'}
+        visible={loading}
+        onRequestClose={() => {console.log('close modal')}}>
             <View style={styles.modalBackground}>
                 <View style={styles.activityIndicatorWrapper}>
                     <ActivityIndicator
-                        animating={loading} />
+                        size="large"
+                        color={theme.primaryRed}
+                    />
                 </View>
             </View>
         </Modal>
     );
+    
 }
 
 const styles = StyleSheet.create({
@@ -31,7 +38,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         flexDirection: 'column',
-        justifyContent: 'space-around',
+        justifyContent: 'center',
         backgroundColor: '#00000040'
     },
     activityIndicatorWrapper: {
@@ -41,7 +48,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
     }
 });
 
