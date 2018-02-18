@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { addNavigationHelpers } from 'react-navigation';
 import PropTypes from 'prop-types';
 
-import Navigator from './navigation';
+import { AuthenticationNavigation } from './navigation';
 
 function AppNavigator({ dispatch, nav }) {
   return (
-    <Navigator
+    <AuthenticationNavigation
       navigation={
         addNavigationHelpers({
           dispatch,

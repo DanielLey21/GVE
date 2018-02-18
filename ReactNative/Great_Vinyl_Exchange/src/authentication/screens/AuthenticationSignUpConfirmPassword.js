@@ -94,7 +94,7 @@ class AuthenticationSignUpConfirmPassword extends Component {
           <BackButtonHeader onPress={this.onBackButtonPress.bind(this)} />
           
           <View style={inputContainer}>
-            <InputField 
+            <InputField
               onChangeText={confirmPassword => this.setState({ confirmPassword })}
               onSubmitEditing={this.onJoinButtonPress.bind(this)}
               placeholder="Re-enter your password"
