@@ -100,7 +100,7 @@ class AuthenticationSignIn extends Component {
             <InputField 
               onChangeText={email => this.setState({ email })}
               onSubmitEditing={null}
-              placeholder="Email"
+              placeholder='Email'
               value={this.state.email}
               label={`${emailError.message}`}
               showError={emailError.showError}

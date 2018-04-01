@@ -69,7 +69,7 @@ const loginUserSuccess = (dispatch, user) => {
         type: AUTHENTICATION_LOGIN_USER_SUCCESS,
         payload: user
     });
-    dispatch(NavigationActions.navigate({routeName: 'ExchangeNavigation'}));
+    dispatch(NavigationActions.navigate({routeName: 'ExchangeTabNavigation'}));
 };
 
 const addUserToDatabase = (dispatch, user) => {
