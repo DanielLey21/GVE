@@ -3,5 +3,5 @@ export function getItemLabel(items, index?) {
 }
 
 export function getPickerValue(items, index?) {
-  return index !== undefined && items.length > 0 ? items[index].inputLabel : undefined;
+  return index !== undefined && items.length > 0 ? items[index].pickerValue : undefined;
 }

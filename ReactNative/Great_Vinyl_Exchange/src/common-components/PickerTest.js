@@ -46,7 +46,7 @@ export class PickerTest extends Component {
   }
 
   _onSelectPickerItem(selectedValue, selectedIndex) {
-    console.log('onHandsetValueChange');
+    //console.log('onHandsetValueChange');
     this.setState({
       showPicker: false,
     });
@@ -60,22 +60,24 @@ export class PickerTest extends Component {
     const { inputStyle, labelStyle, errorLabelStyle, containerStyle } = styles;
     return(
         <View style={containerStyle}>
-            <TextInput
-                placeholder={placeholder}
-                placeholderTextColor={theme.gray}
-                autoCorrect={false}
-                style={[inputStyle, style]}
-                editable={false}
-                onFocus={this._onLabelPress}
-                value={getItemLabel(this.props.items, this.state.selectedIndex)}
-            />
+            <TouchableWithoutFeedback onPress={this._onLabelPress}>
+                <TextInput
+                    placeholder={placeholder}
+                    placeholderTextColor={theme.gray}
+                    autoCorrect={false}
+                    style={[inputStyle, style]}
+                    editable={false}
+                    onFocus={this._onLabelPress}
+                    value={getItemLabel(this.props.items, this.state.selectedIndex)}
+                />
+            </TouchableWithoutFeedback>
             <Text style={showError ? errorLabelStyle : labelStyle}>{label}</Text>
         </View>
     );
   }
 
   _onHandsetValueChange(pickerValue, itemPosition) {
-    console.log('onHandsetValueChange');
+    //console.log('onHandsetValueChange');
     const isAndroid = Platform.OS === 'android';
     let showPicker = this.state.showPicker;
 
@@ -148,8 +150,8 @@ export class PickerTest extends Component {
   }
 
   render() {
-      console.log(this.props);
-      console.log(this.state);
+      //console.log(this.props);
+      //console.log(this.state);
     return (
       <View>
         <TouchableWithoutFeedback
@@ -157,15 +159,23 @@ export class PickerTest extends Component {
         >
             {this._renderInputLabel()}
         </TouchableWithoutFeedback>
-         <PickerModal
-            showPicker={this.state.showPicker}
-            onDonePress={this._onHandsetDonePress}
-            onBackgroundPress={this._onHandsetBackgroundPress}
-            onValueChange={this._onHandsetValueChange}
-            selectedIndex={this.state.pendingIndex || this.state.selectedIndex}
-            items={this.props.items}
-            onLayoutChange={this._onLayout}
-        /> 
+         <View style={{//flex: 1,
+            position: 'absolute',
+            //left: 0,
+            //bottom: 0,
+            backgroundColor: '#fff',
+            alignItems: 'center',
+            justifyContent: 'center' }}>
+            <PickerModal
+                showPicker={this.state.showPicker}
+                onDonePress={this._onHandsetDonePress}
+                onBackgroundPress={this._onHandsetBackgroundPress}
+                onValueChange={this._onHandsetValueChange}
+                selectedIndex={this.state.pendingIndex || this.state.selectedIndex}
+                items={this.props.items}
+                //onLayoutChange={this._onLayout}
+            /> 
+        </View>
       </View>
     );
   }
