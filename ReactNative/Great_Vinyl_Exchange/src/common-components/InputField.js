@@ -4,7 +4,7 @@ import { TextInput, View, Text } from 'react-native';
 import theme from '../styles/theme';
 import { Style, em } from '../styles/styles';
 
-const InputField = ({ style, label, placeholder, secureTextEntry = false, value, onChangeText, onSubmitEditing, showError, multiline = false }) => {
+const InputField = ({ style, label, placeholder, secureTextEntry = false, value, onChangeText, onSubmitEditing, showError, multiline = false, editable = true }) => {
     const { inputStyle, labelStyle, errorLabelStyle, containerStyle } = styles;
     
     return(
@@ -19,6 +19,7 @@ const InputField = ({ style, label, placeholder, secureTextEntry = false, value,
                 onChangeText={onChangeText}
                 onSubmitEditing={onSubmitEditing}
                 multiline={multiline}
+                editable={editable}
             />
             <Text style={showError ? errorLabelStyle : labelStyle}>{label}</Text>
         </View>

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
 
-import { NoInfoProfileCell, InputField, PickerTest } from '../common-components';
+import { NoInfoProfileCell, InputField, PickerTest, PickerModal } from '../common-components';
 import theme from '../styles/theme';
 import { Style, em } from '../styles/styles';
 
@@ -28,6 +28,7 @@ class ProfileSettingsScreen extends Component {
         zipcode: '',
         stateSelectedIndex: undefined,
         stateSelectedValue: undefined,
+        showPicker: false,
     }; 
 
     static navigationOptions = ({ 
@@ -47,6 +48,15 @@ class ProfileSettingsScreen extends Component {
 
     constructor() {
         super()
+
+       this._onStateLabelPress = this._onStateLabelPress.bind(this);
+    }
+
+    _onStateLabelPress() {
+        console.log('in label press');
+        this.setState({
+            showPicker: true,
+        }) 
     }
 
     _renderTitle() {
@@ -95,6 +105,7 @@ class ProfileSettingsScreen extends Component {
     }
 
     _renderEditProfileView() {
+        console.log(this.state.showPicker);
         return (
             <View style={{ paddingHorizontal: 21, paddingTop: 10 }}>
                 <InputField
@@ -126,7 +137,21 @@ class ProfileSettingsScreen extends Component {
                         />
                     </View>
                     <View style={{ paddingLeft: 18 }}>
-                    <PickerTest
+                    <TouchableWithoutFeedback onPress={this._onStateLabelPress}>
+                        <View>
+                        <InputField
+                            style={{ flex: 1, width: '100%'}}
+                            //onChangeText={state => this.setState({ state })}
+                            onSubmitEditing={null}
+                            placeholder={"Add State"}
+                            value={this.state.state}
+                            label={"State"}
+                            showError={false}
+                            editable={false}
+                        />
+                        </View>
+                    </TouchableWithoutFeedback> 
+                    {/* <PickerTest
                         style={{ flex: 1, width: '110%'}}
                         placeholder={"Add State"}
                         label={"State"}
@@ -138,7 +163,7 @@ class ProfileSettingsScreen extends Component {
                             });
                         }}
                         items={states}
-                    />
+                    /> */}
                     </View>
                     <View style={{ paddingLeft: 25 }}>
                     <InputField
@@ -160,6 +185,27 @@ class ProfileSettingsScreen extends Component {
                     label={"Discogs Username"}
                     showError={false}
                 />
+
+                {
+                this.state.showPicker &&
+                    <View style={{//flex: 1,
+                        position: 'absolute',
+                        //left: 0,
+                        //bottom: 0,
+                        backgroundColor: '#fff',
+                        alignItems: 'center',
+                        justifyContent: 'center' }}>
+                        <PickerModal
+                            showPicker={this.state.showPicker}
+                            //onDonePress={this._onHandsetDonePress}
+                            //onBackgroundPress={this._onHandsetBackgroundPress}
+                            //onValueChange={this._onHandsetValueChange}
+                            //selectedIndex={this.state.pendingIndex || this.state.selectedIndex}
+                            items={states}
+                            //onLayoutChange={this._onLayout}
+                        /> 
+                    </View>
+                }
             </View>
         );
     }
