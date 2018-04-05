@@ -1,26 +1,34 @@
 import React from 'react';
-import { TextInput, View, Text } from 'react-native';
+import { TextInput, View, Text, Item, Picker } from 'react-native';
 
 import theme from '../styles/theme';
 import { Style, em } from '../styles/styles';
 
-const InputField = ({ style, label, placeholder, secureTextEntry = false, value, onChangeText, onSubmitEditing, showError, multiline = false, editable = true }) => {
+var options =["Home","Savings","Car","GirlFriend"];
+
+const InputPicker = ({ style, label, placeholder, value, onChangeText, showError, items = null }) => {
     const { inputStyle, labelStyle, errorLabelStyle, containerStyle } = styles;
     
     return(
         <View style={containerStyle}>
             <TextInput
-                secureTextEntry={secureTextEntry}
                 placeholder={placeholder}
                 placeholderTextColor={theme.gray}
                 autoCorrect={false}
                 style={[inputStyle, style]}
                 value={value}
                 onChangeText={onChangeText}
-                onSubmitEditing={onSubmitEditing}
-                multiline={multiline}
-                editable={editable}
             />
+
+            <Picker
+                style={{}}
+                mode="dropdown"
+                selectedValue={this.state.selected}
+                onValueChange={()=>{}}> 
+                {options.map((item, index) => {
+                    return (<Item label={item} value={index} key={index}/>) 
+                })}
+            </Picker>
             <Text style={showError ? errorLabelStyle : labelStyle}>{label}</Text>
         </View>
     );
@@ -62,4 +70,4 @@ const styles = {
     }
 };
 
-export { InputField };
+export { InputPicker };

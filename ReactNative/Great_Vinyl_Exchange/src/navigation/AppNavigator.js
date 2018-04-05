@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { addNavigationHelpers } from 'react-navigation';
 import PropTypes from 'prop-types';
 
-import { AuthenticationNavigation } from './navigation';
+import { AuthenticationNavigation, ExchangeNavigation } from './navigation';
 
 function AppNavigator({ dispatch, nav }) {
   return (

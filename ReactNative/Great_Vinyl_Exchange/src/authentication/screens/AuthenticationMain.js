@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
-import { PrimaryRedButton } from '../../common-components';
+import { PrimaryRedButton, Header } from '../../common-components';
 import theme from '../../styles/theme';
 import { Style, em } from '../../styles/styles';
 
 
 class AuthenticationMain extends Component {
+
+  constructor(props) {
+    super();
+    props.navigation.navigate('ExchangeTabNavigation');
+  }
 
   onSignUpButtonPress() {
     this.props.navigation.navigate('AuthenticationSignUpEmail');

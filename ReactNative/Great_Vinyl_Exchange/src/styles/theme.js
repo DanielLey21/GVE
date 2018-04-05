@@ -6,4 +6,5 @@ export default {
 
     // Secondary 
     cream: '#FCF7F1',
+    gray: '#92928b',
 };
