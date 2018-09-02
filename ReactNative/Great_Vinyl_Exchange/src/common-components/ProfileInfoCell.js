@@ -4,7 +4,7 @@ import { TextInput, View, Text } from 'react-native';
 import theme from '../styles/theme';
 import { Style, em } from '../styles/styles';
 
-const NoInfoProfileCell = ({ title, value }) => {
+const ProfileInfoCell = ({ title, value, isEmpty }) => {
     const { titleStyle, valueStyle } = styles;
 
     return (
@@ -12,7 +12,7 @@ const NoInfoProfileCell = ({ title, value }) => {
             <Text style={titleStyle}>
                 {title}
             </Text>
-            <Text style={valueStyle}>
+            <Text style={[valueStyle, { color: isEmpty ? theme.primaryRed : theme.black}]}>
                 {value}
             </Text>
         </View>
@@ -27,10 +27,10 @@ const styles = {
         paddingBottom: 5,
     },
     valueStyle: {
-        fontSize: 17,
+        fontSize: 19,
+        lineHeight: 17,
         fontFamily: "WorkSans-Regular",
-        color: theme.primaryRed,
     },
 };
 
-export { NoInfoProfileCell };
+export { ProfileInfoCell };

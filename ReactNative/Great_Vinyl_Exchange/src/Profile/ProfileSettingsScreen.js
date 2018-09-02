@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, TouchableWithoutFeedback, Image } from 'react-native';
 import { connect } from 'react-redux';
+import * as _ from 'lodash';
 
-import { NoInfoProfileCell, InputField } from '../common-components';
+import { ProfileInfoCell, InputField } from '../common-components';
 import theme from '../styles/theme';
 import { Style, em } from '../styles/styles';
 
@@ -15,27 +16,75 @@ class ProfileSettingsScreen extends Component {
         city: '',
         state: '',
         zipcode: '',
+        //profile: {username: 'deej21', name: 'DJ', address: '1943 N. Fremont st.', city: 'Chicago', state: 'IL', zipcode: '60614'},
+        isEditing: false,
     }; 
 
-    static navigationOptions = ({ 
-        title: 'Settings',
-        headerStyle: { backgroundColor: theme.primaryRed },
-        headerTitleStyle: { color: theme.cream, fontFamily: 'WorkSans-SemiBold' },
-        headerRight: <TouchableOpacity>
-                        <Text
-                            style={{ paddingRight: 17,
-                                     color: theme.cream,
-                                     fontSize: 17,
-                                     fontFamily: 'WorkSans-Regular'
-                                  }}
-                        >Edit</Text>
-                    </TouchableOpacity>
-    });
+    static navigationOptions = ({ navigation }) => { 
+        const { headerRight } = !!navigation.state.params ? navigation.state.params : navigation.state;
+        return {
+            title: 'Settings',
+            headerStyle: { backgroundColor: theme.primaryRed },
+            headerTitleStyle: { color: theme.cream, fontFamily: 'WorkSans-SemiBold' },
+            headerRight: !!headerRight && headerRight,
+        };
+    };
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
 
-       this._onStateLabelPress = this._onStateLabelPress.bind(this);
+        this._onProfileFormTapped = this._onProfileFormTapped.bind(this);
+    }
+
+    componentWillMount() {
+        this.props.navigation.setParams(
+            { headerRight: <TouchableOpacity
+                            onPress={this._onProfileFormTapped}
+                           >
+                                <Text
+                                    style={{ paddingRight: 17,
+                                            color: theme.cream,
+                                            fontSize: 17,
+                                            fontFamily: 'WorkSans-Regular'
+                                        }}
+                                >Edit</Text>
+                           </TouchableOpacity>
+        });
+    }
+
+    _onProfileFormTapped() {
+        if (this.state.isEditing) {
+            this.props.navigation.setParams(
+            {
+                headerRight: <TouchableOpacity
+                                onPress={this._onProfileFormTapped}  
+                             >
+                                <Text
+                                    style={{ paddingRight: 17,
+                                            color: theme.cream,
+                                            fontSize: 17,
+                                            fontFamily: 'WorkSans-Regular'
+                                        }}
+                                >Edit</Text>
+                            </TouchableOpacity>
+            });
+        } else {
+            this.props.navigation.setParams(
+            {
+                headerRight: <TouchableOpacity
+                               onPress={this._onProfileFormTapped}
+                             >
+                                <Text
+                                    style={{ paddingRight: 17,
+                                            color: theme.cream,
+                                            fontSize: 17,
+                                            fontFamily: 'WorkSans-Regular'
+                                        }}
+                                >Done</Text>
+                           </TouchableOpacity>
+            });
+        }
+        this.setState({ isEditing: !this.state.isEditing });
     }
 
     _renderTitle() {
@@ -69,23 +118,28 @@ class ProfileSettingsScreen extends Component {
 
     _renderNoInformationProvidedView() {
         return (
-            <View style={{ paddingLeft: 21, paddingTop: 5 }}>
-                <NoInfoProfileCell 
-                    title="Name"
-                    value="Add Name" />
-                <NoInfoProfileCell 
-                    title="Preferred Shipping Address"
-                    value="Add Address" />
-                <NoInfoProfileCell 
-                    title="Discogs Username"
-                    value="Add Username" />
-            </View>
+            <TouchableWithoutFeedback onPress={this._onProfileFormTapped}>
+                <View style={{ paddingLeft: 21, paddingTop: 5 }}>
+                    <ProfileInfoCell 
+                        title="Name"
+                        value="Add Name"
+                        isEmpty={true} />
+                    <ProfileInfoCell 
+                        title="Preferred Shipping Address"
+                        value="Add Address"
+                        isEmpty={true} />
+                    <ProfileInfoCell 
+                        title="Discogs Username"
+                        value="Add Username"
+                        isEmpty={true} />
+                </View>
+            </TouchableWithoutFeedback>
         );
     }
 
     _renderEditProfileView() {
         return (
-            <View style={{ paddingHorizontal: 21, paddingTop: 10 }}>
+            <View style={{ paddingHorizontal: 21, paddingTop: 10, justifyContent: 'flex-start', flexDirection: 'column' }}>
                 <InputField
                     onChangeText={name => this.setState({ name })}
                     onSubmitEditing={null}
@@ -94,7 +148,8 @@ class ProfileSettingsScreen extends Component {
                     label={"Full Name"}
                     showError={false}
                 />
-                <InputField
+                 <InputField
+                    style={{ flex: 1 }}
                     onChangeText={address => this.setState({ address })}
                     onSubmitEditing={null}
                     placeholder={"Add Address"}
@@ -121,9 +176,8 @@ class ProfileSettingsScreen extends Component {
                             onSubmitEditing={null}
                             placeholder={"Add State"}
                             value={this.state.state}
-                            label={"State"}
+                            label={"State (Abbr.)"}
                             showError={false}
-                            editable={false}
                         />
                     </View>
                     <View style={{ paddingLeft: 25 }}>
@@ -135,6 +189,7 @@ class ProfileSettingsScreen extends Component {
                         value={this.state.zipcode}
                         label={"ZIP code"}
                         showError={false}
+                        keyboardType='numeric'
                     /> 
                     </View>
                 </View>
@@ -145,22 +200,49 @@ class ProfileSettingsScreen extends Component {
                     value={this.state.username}
                     label={"Discogs Username"}
                     showError={false}
-                />
+                /> 
+            </View>
+        );
+    }
+
+    _renderProfileView() {
+        return (
+            <View style={{ paddingLeft: 21, paddingTop: 5 }}>
+                <ProfileInfoCell 
+                    title="Name"
+                    value={this.state.profile.name}
+                    isEmpty={false} />
+                <ProfileInfoCell 
+                    title="Preferred Shipping Address"
+                    value={`${this.state.profile.address}
+                            \n${this.state.profile.city},  ${this.state.profile.state},  ${this.state.profile.zipcode}`}
+                    isEmpty={false} />
+                <ProfileInfoCell 
+                    title="Discogs Username"
+                    value={this.state.profile.username}
+                    isEmpty={false} />
             </View>
         );
     }
   
     render() {
-        return (
-        <View style={{ flex: 1, backgroundColor: theme.cream }}>
-            {this._renderTitle()}
-            {this._renderProfileImage()}
+        let renderForm = null;
+        if (_.isEmpty(this.state.profile) && !this.state.isEditing) {
             {/*If no information, load no info cells  */}
-            {/* {this._renderNoInformationProvidedView()} */}
+            renderForm = this._renderNoInformationProvidedView();
+        } else if (this.state.isEditing) {
             {/*If User is editing, render editing cells  */}
-            {this._renderEditProfileView()}
+            renderForm = this._renderEditProfileView();
+        } else {
             {/*If information, and not editing, render info cells  */}
-        </View>
+            renderForm = this._renderProfileView();
+        }
+        return (
+            <View style={{ flex: 1, backgroundColor: theme.cream }}>
+                {this._renderTitle()}
+                {this._renderProfileImage()}
+                {renderForm} 
+            </View>
         );
     }
 }
