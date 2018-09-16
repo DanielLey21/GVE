@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, TouchableWithoutFeedback, Image } from 'react-native';
+import ImagePicker from 'react-native-image-picker';
 import { connect } from 'react-redux';
 import * as _ from 'lodash';
 
 import { ProfileInfoCell, InputField } from '../common-components';
 import theme from '../styles/theme';
 import { Style, em } from '../styles/styles';
+import { updateUserProfile, updateProfileImage, fetchProfile } from './ProfileActions';
 
 class ProfileSettingsScreen extends Component {
 
     state = {
         name: '',
-        address: '',
-        username: '', 
+        street: '',
         city: '',
         state: '',
         zipcode: '',
-        //profile: {username: 'deej21', name: 'DJ', address: '1943 N. Fremont st.', city: 'Chicago', state: 'IL', zipcode: '60614'},
+        username: '', 
+        profileImage: null,
         isEditing: false,
     }; 
 
@@ -34,9 +36,11 @@ class ProfileSettingsScreen extends Component {
         super(props)
 
         this._onProfileFormTapped = this._onProfileFormTapped.bind(this);
+        this._profilePhotoTapped = this._profilePhotoTapped.bind(this);
     }
 
     componentWillMount() {
+        this.props.fetchProfile();
         this.props.navigation.setParams(
             { headerRight: <TouchableOpacity
                             onPress={this._onProfileFormTapped}
@@ -52,8 +56,29 @@ class ProfileSettingsScreen extends Component {
         });
     }
 
+    componentWillReceiveProps(nextProps) {
+
+        if (!!nextProps.userProfile) {
+            this.setState({
+                city: (!!nextProps.userProfile.address && !!nextProps.userProfile.address.city) && nextProps.userProfile.address.city,
+                state: (!!nextProps.userProfile.address && !!nextProps.userProfile.address.state) && nextProps.userProfile.address.state, 
+                street: (!!nextProps.userProfile.address && !!nextProps.userProfile.address.street) && nextProps.userProfile.address.street,
+                zipcode: (!!nextProps.userProfile.address && !!nextProps.userProfile.address.zipcode) && nextProps.userProfile.address.zipcode,
+                name: !!nextProps.userProfile.name && nextProps.userProfile.name,
+                username: !!nextProps.userProfile.username && nextProps.userProfile.username,
+                profileImage: !!nextProps.userProfile.profileImage && nextProps.userProfile.profileImage,
+            })
+        }
+    }
+
     _onProfileFormTapped() {
-        if (this.state.isEditing) {
+        const { isEditing, name, username, street, city, state, zipcode, profileImage } = this.state;
+        if (isEditing) {
+            // This is when the user has clicked done for editing, and so we check to see
+            // if any information has been changed, if it has we pop a save modal thing, and
+            // make a firebase call to save the information on the back end
+            //MVP make the firebase call
+            this.props.updateUserProfile({ name, username, address: { street, city, state, zipcode }, profileImage });
             this.props.navigation.setParams(
             {
                 headerRight: <TouchableOpacity
@@ -84,7 +109,42 @@ class ProfileSettingsScreen extends Component {
                            </TouchableOpacity>
             });
         }
-        this.setState({ isEditing: !this.state.isEditing });
+        this.setState({ isEditing: !isEditing });
+    }
+
+    _profilePhotoTapped() {
+      const options = {
+        quality: 1.0,
+        maxWidth: 500,
+        maxHeight: 500,
+        storageOptions: {
+          skipBackup: true
+        }
+      };
+
+      let source = null
+  
+      ImagePicker.showImagePicker(options, (response) => {
+  
+        if (response.didCancel) {
+          //console.log('User cancelled photo picker');
+        }
+        else if (response.error) {
+          console.warn('ImagePicker Error: ', response.error);
+        }
+        else if (response.customButton) {
+          //console.log('User tapped custom button: ', response.customButton);
+        }
+        else {
+          source = { uri: response.uri };
+          this.setState({
+            profileImage: source
+          });
+          this.props.updateProfileImage(source.uri)
+          // You can also display the image using data:
+          // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+        }
+      });
     }
 
     _renderTitle() {
@@ -104,14 +164,25 @@ class ProfileSettingsScreen extends Component {
     }
 
     _renderProfileImage() {
+        let imageSource;
+        if (!!this.state.profileImage && this.state.profileImage.downloadUrl) {
+            imageSource = { uri: this.state.profileImage.downloadUrl };
+        } else if (!!this.state.profileImage) {
+            imageSource = this.state.profileImage;
+        } 
+
+        let dimensions = !!imageSource ? 90 : 72;
+
         return (
             <View
               style={{ paddingTop: 20, paddingLeft: 16 }}>
+              <TouchableOpacity onPress={this._profilePhotoTapped}>
                 <Image 
-                resizeMode="contain"
-                style={{ width: 72, height: 72 }}
-                source={require('../resources/images/avatar-default.png')} 
-              />
+                    resizeMode="contain"
+                    style={{ width: dimensions, height: dimensions, borderRadius: 30 }}
+                    source={!!imageSource ? imageSource : require('../resources/images/avatar-default.png')} 
+                />
+              </TouchableOpacity>
             </View>
         )
     }
@@ -150,10 +221,10 @@ class ProfileSettingsScreen extends Component {
                 />
                  <InputField
                     style={{ flex: 1 }}
-                    onChangeText={address => this.setState({ address })}
+                    onChangeText={street => this.setState({ street })}
                     onSubmitEditing={null}
                     placeholder={"Add Address"}
-                    value={this.state.address}
+                    value={this.state.street}
                     label={"Preferred Shipping Address"}
                     showError={false}
                 />
@@ -210,16 +281,18 @@ class ProfileSettingsScreen extends Component {
             <View style={{ paddingLeft: 21, paddingTop: 5 }}>
                 <ProfileInfoCell 
                     title="Name"
-                    value={this.state.profile.name}
+                    value={ !!this.props.userProfile.name ? this.props.userProfile.name : '' }
                     isEmpty={false} />
                 <ProfileInfoCell 
                     title="Preferred Shipping Address"
-                    value={`${this.state.profile.address}
-                            \n${this.state.profile.city},  ${this.state.profile.state},  ${this.state.profile.zipcode}`}
+                    value={ !!this.props.userProfile.address 
+                            ? `${this.props.userProfile.address.street}
+                            \n${this.props.userProfile.address.city},  ${this.props.userProfile.address.state},  ${this.props.userProfile.address.zipcode}`
+                            : '' }
                     isEmpty={false} />
                 <ProfileInfoCell 
                     title="Discogs Username"
-                    value={this.state.profile.username}
+                    value={ !!this.props.userProfile.username ? this.props.userProfile.username : '' }
                     isEmpty={false} />
             </View>
         );
@@ -227,16 +300,16 @@ class ProfileSettingsScreen extends Component {
   
     render() {
         let renderForm = null;
-        if (_.isEmpty(this.state.profile) && !this.state.isEditing) {
-            {/*If no information, load no info cells  */}
-            renderForm = this._renderNoInformationProvidedView();
-        } else if (this.state.isEditing) {
-            {/*If User is editing, render editing cells  */}
+        if (this.state.isEditing) {
             renderForm = this._renderEditProfileView();
-        } else {
-            {/*If information, and not editing, render info cells  */}
-            renderForm = this._renderProfileView();
+        } else if (typeof this.props.userProfile !== 'undefined'){
+            if (!!this.props.userProfile.name || !!this.props.userProfile.address || !!this.props.userProfile.username) {
+                renderForm = this._renderProfileView();
+            } else {
+                renderForm = this._renderNoInformationProvidedView();
+            }
         }
+
         return (
             <View style={{ flex: 1, backgroundColor: theme.cream }}>
                 {this._renderTitle()}
@@ -247,4 +320,8 @@ class ProfileSettingsScreen extends Component {
     }
 }
 
-export default connect(null)(ProfileSettingsScreen);
+const mapStateToProps = state => {
+    return { userProfile: state.profile.userProfile };
+};
+
+export default connect(mapStateToProps, { updateUserProfile, updateProfileImage, fetchProfile })(ProfileSettingsScreen);

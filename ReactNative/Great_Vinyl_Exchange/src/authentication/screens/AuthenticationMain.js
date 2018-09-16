@@ -11,7 +11,7 @@ class AuthenticationMain extends Component {
 
   constructor(props) {
     super();
-    props.navigation.navigate('ExchangeTabNavigation');
+    //props.navigation.navigate('ExchangeTabNavigation');
   }
 
   onSignUpButtonPress() {
