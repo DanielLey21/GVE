@@ -15,4 +15,12 @@ export default keymirror({
 
     // Navigation
     CURRENT_SCENE: "current_scene",
+
+    // Profile 
+    PROFILE_SET_PROFILE: "set_profile",
+    PROFILE_UPDATE_USER_PROFILE: "update_user_profile",
+    PROFILE_UPDATE_USER_PROFILE_SUCCESS: "update_user_profile_success",
+    PROFILE_UPDATE_USER_PROFILE_FAIL: "update_user_profile_fail",
+    PROFILE_FETCH_USER_PROFILE: "fetch_user_profile",
+    PROFILE_FETCH_USER_PROFILE_SUCCESS: "fetch_user_profile_success",
 });

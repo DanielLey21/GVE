@@ -75,10 +75,10 @@ const loginUserSuccess = (dispatch, user) => {
 const addUserToDatabase = (dispatch, user) => {
     const { currentUser } = firebase.auth();
     firebase.database().ref(`/users/${currentUser.uid}/userProfile`)
-        .push(user)
+        .set(user)
         .then(() => {
             dispatch({ type: AUTHENTICATION_ADD_USER_SUCCESS, payload: user });
-            dispatch(NavigationActions.navigate({routeName: 'AuthenticationMain'}));
+            dispatch(NavigationActions.navigate({routeName: 'ExchangeTabNavigation'}));
         })
         .catch(error => {
             registerUserFail(dispatch, error);
