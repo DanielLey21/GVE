@@ -25,10 +25,10 @@ export const updateUserProfile = (user) => {
     }
 };
 
-export const updateProfileImage = (uri) => {
+export const updateProfileImage = (user) => {
     return (dispatch) => {
-        Promise.all([uploadUserProfileImageToStorage(dispatch, uri)]).then((urls) => {
-            updateUserProfileOnDatabase(dispatch, { profileImage: urls[0] });
+        Promise.all([uploadUserProfileImageToStorage(dispatch, user.profileImage.uri)]).then((urls) => {
+            updateUserProfileOnDatabase(dispatch, { ...user, profileImage: urls[0] });
         }).catch(error => {
             // PUT ERROR FOR UPLOADING IMAGES
             // MAKE KANBAN USER STORY

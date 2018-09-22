@@ -123,6 +123,7 @@ class ProfileSettingsScreen extends Component {
       };
 
       let source = null
+      const { name, username, street, city, state, zipcode } = this.state;
   
       ImagePicker.showImagePicker(options, (response) => {
   
@@ -140,7 +141,7 @@ class ProfileSettingsScreen extends Component {
           this.setState({
             profileImage: source
           });
-          this.props.updateProfileImage(source.uri)
+          this.props.updateProfileImage({ name, username, address: { street, city, state, zipcode }, profileImage: { uri: source.uri } });
           // You can also display the image using data:
           // let source = { uri: 'data:image/jpeg;base64,' + response.data };
         }
