@@ -123,6 +123,7 @@ class ProfileSettingsScreen extends Component {
       };
 
       let source = null
+      const { name, username, street, city, state, zipcode } = this.state;
   
       ImagePicker.showImagePicker(options, (response) => {
   
@@ -140,7 +141,7 @@ class ProfileSettingsScreen extends Component {
           this.setState({
             profileImage: source
           });
-          this.props.updateProfileImage(source.uri)
+          this.props.updateProfileImage({ name, username, address: { street, city, state, zipcode }, profileImage: { uri: source.uri } });
           // You can also display the image using data:
           // let source = { uri: 'data:image/jpeg;base64,' + response.data };
         }
@@ -303,7 +304,9 @@ class ProfileSettingsScreen extends Component {
         if (this.state.isEditing) {
             renderForm = this._renderEditProfileView();
         } else if (typeof this.props.userProfile !== 'undefined'){
-            if (!!this.props.userProfile.name || !!this.props.userProfile.address || !!this.props.userProfile.username) {
+            console.log(this.props.userProfile);
+            console.log(this.state);
+            if ((!!this.props.userProfile.name && this.props.userProfile.name !== false) || (!!this.props.userProfile.address && this.props.userProfile.address.city !== false) || (!!this.props.userProfile.username && this.props.userProfile.username !== false)) {
                 renderForm = this._renderProfileView();
             } else {
                 renderForm = this._renderNoInformationProvidedView();
