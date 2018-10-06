@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 import { NavigationActions } from 'react-navigation';
 import { Platform } from 'react-native';
-import RNFetchBlob from 'react-native-fetch-blob';
+import RNFetchBlob from 'rn-fetch-blob';
 
 const Blob = RNFetchBlob.polyfill.Blob;
 const fs = RNFetchBlob.fs;
