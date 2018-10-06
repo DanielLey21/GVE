@@ -2,14 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Great Vinyl Exchange would like access to your photo gallery</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Great Vinyl Exchange would like to use your camera</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Great Vinyl Exchange would like to save photos to your photo gallery</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Great Vinyl Exchange would like to access your microphone (for videos)</string>
+	<string>Need Camera to Capture Images</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Access Gallery to Pick Images</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -32,7 +28,8 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string></string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -47,18 +44,10 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIAppFonts</key>
-	<array>
-		<string>WorkSans-SemiBold.ttf</string>
-		<string>WorkSans-Regular.ttf</string>
-	</array>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
 	<key>NSAppTransportSecurity</key>
-	<!--See http://ste.vn/2015/06/10/configuring-app-transport-security-ios-9-osx-10-11/ -->
 	<dict>
-    <key>NSAllowsArbitraryLoads</key>
-    <true/>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>localhost</key>
@@ -68,5 +57,10 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>WorkSans-Regular.ttf</string>
+		<string>WorkSans-SemiBold.ttf</string>
+	</array>
 </dict>
 </plist>

@@ -304,7 +304,9 @@ class ProfileSettingsScreen extends Component {
         if (this.state.isEditing) {
             renderForm = this._renderEditProfileView();
         } else if (typeof this.props.userProfile !== 'undefined'){
-            if (!!this.props.userProfile.name || !!this.props.userProfile.address || !!this.props.userProfile.username) {
+            console.log(this.props.userProfile);
+            console.log(this.state);
+            if ((!!this.props.userProfile.name && this.props.userProfile.name !== false) || (!!this.props.userProfile.address && this.props.userProfile.address.city !== false) || (!!this.props.userProfile.username && this.props.userProfile.username !== false)) {
                 renderForm = this._renderProfileView();
             } else {
                 renderForm = this._renderNoInformationProvidedView();

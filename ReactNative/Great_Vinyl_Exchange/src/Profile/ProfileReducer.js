@@ -9,9 +9,6 @@ const {
 } = require('../resources/ActionConstants').default;
 
 const INITIAL_STATE = { userProfile: {
-                            name: undefined,
-                            username: undefined, 
-                            address: undefined,
                         },
                         isLoading: false,
                         firebaseError: undefined,
