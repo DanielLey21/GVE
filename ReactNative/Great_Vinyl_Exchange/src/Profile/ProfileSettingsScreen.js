@@ -60,13 +60,13 @@ class ProfileSettingsScreen extends Component {
 
         if (!!nextProps.userProfile) {
             this.setState({
-                city: (!!nextProps.userProfile.address && !!nextProps.userProfile.address.city) && nextProps.userProfile.address.city,
-                state: (!!nextProps.userProfile.address && !!nextProps.userProfile.address.state) && nextProps.userProfile.address.state, 
-                street: (!!nextProps.userProfile.address && !!nextProps.userProfile.address.street) && nextProps.userProfile.address.street,
-                zipcode: (!!nextProps.userProfile.address && !!nextProps.userProfile.address.zipcode) && nextProps.userProfile.address.zipcode,
-                name: !!nextProps.userProfile.name && nextProps.userProfile.name,
-                username: !!nextProps.userProfile.username && nextProps.userProfile.username,
-                profileImage: !!nextProps.userProfile.profileImage && nextProps.userProfile.profileImage,
+                city: (!!nextProps.userProfile.address && !!nextProps.userProfile.address.city) ? nextProps.userProfile.address.city : '',
+                state: (!!nextProps.userProfile.address && !!nextProps.userProfile.address.state) ? nextProps.userProfile.address.state : '', 
+                street: (!!nextProps.userProfile.address && !!nextProps.userProfile.address.street) ? nextProps.userProfile.address.street : '',
+                zipcode: (!!nextProps.userProfile.address && !!nextProps.userProfile.address.zipcode) ? nextProps.userProfile.address.zipcode : '',
+                name: !!nextProps.userProfile.name ? nextProps.userProfile.name : '',
+                username: !!nextProps.userProfile.username ? nextProps.userProfile.username : '',
+                profileImage: !!nextProps.userProfile.profileImage ? nextProps.userProfile.profileImage : null,
             })
         }
     }
@@ -211,7 +211,7 @@ class ProfileSettingsScreen extends Component {
 
     _renderEditProfileView() {
         return (
-            <View style={{ paddingHorizontal: 21, paddingTop: 10, justifyContent: 'flex-start', flexDirection: 'column' }}>
+            <View style={{ flex: .6, paddingHorizontal: 21, paddingTop: 10, flexDirection: 'column' }}>
                 <InputField
                     onChangeText={name => this.setState({ name })}
                     onSubmitEditing={null}
@@ -221,7 +221,6 @@ class ProfileSettingsScreen extends Component {
                     showError={false}
                 />
                  <InputField
-                    style={{ flex: 1 }}
                     onChangeText={street => this.setState({ street })}
                     onSubmitEditing={null}
                     placeholder={"Add Address"}

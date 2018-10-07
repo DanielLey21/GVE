@@ -31,7 +31,7 @@ const styles = {
     inputStyle: {
         flex: 1,
         color: theme.black,
-        paddingBottom: 15,
+        paddingBottom: 5,
         marginBottom: 2,
         paddingTop: 10,
         fontSize: 16,
@@ -42,24 +42,25 @@ const styles = {
         borderBottomColor: theme.black,
     },
     labelStyle: {
-        //flex: 1,
+        flex: 1,
         color: theme.black,
         fontSize: 12,
         backgroundColor: 'rgba(0, 0, 0, 0.0)'
     },
     errorLabelStyle: {
-        //flex: 1,
+        flex: 1,
         color: theme.primaryRed,
         fontSize: 12,
         backgroundColor: 'rgba(0, 0, 0, 0.0)'
     },
     containerStyle: {
-        flex: 1,
-        marginBottom: 20,
-        marginTop: 30,
+        //flex: 1,
+        height: 95,
+        //marginBottom: 20,
+        //marginTop: 30,
         flexDirection: 'column',
         alignItems: 'flex-start',
-        paddingBottom: 20,
+        //paddingBottom: 5,
     }
 };
 
