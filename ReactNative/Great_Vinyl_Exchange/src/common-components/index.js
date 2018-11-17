@@ -5,3 +5,4 @@ export * from './LinkButton';
 export * from './Loader';
 export * from './Header';
 export * from './ProfileInfoCell';
+export * from './SendButton';

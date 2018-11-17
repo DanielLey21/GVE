@@ -60,13 +60,13 @@ class ProfileSettingsScreen extends Component {
 
         if (!!nextProps.userProfile) {
             this.setState({
-                city: (!!nextProps.userProfile.address && !!nextProps.userProfile.address.city) ? nextProps.userProfile.address.city : '',
-                state: (!!nextProps.userProfile.address && !!nextProps.userProfile.address.state) ? nextProps.userProfile.address.state : '', 
-                street: (!!nextProps.userProfile.address && !!nextProps.userProfile.address.street) ? nextProps.userProfile.address.street : '',
-                zipcode: (!!nextProps.userProfile.address && !!nextProps.userProfile.address.zipcode) ? nextProps.userProfile.address.zipcode : '',
-                name: !!nextProps.userProfile.name ? nextProps.userProfile.name : '',
-                username: !!nextProps.userProfile.username ? nextProps.userProfile.username : '',
-                profileImage: !!nextProps.userProfile.profileImage ? nextProps.userProfile.profileImage : null,
+                city: (!!nextProps.userProfile.address && !!nextProps.userProfile.address.city) ? nextProps.userProfile.address.city : null,
+                state: (!!nextProps.userProfile.address && !!nextProps.userProfile.address.state) ? nextProps.userProfile.address.state : null, 
+                street: (!!nextProps.userProfile.address && !!nextProps.userProfile.address.street) ? nextProps.userProfile.address.street : null,
+                zipcode: (!!nextProps.userProfile.address && !!nextProps.userProfile.address.zipcode) ? nextProps.userProfile.address.zipcode : null,
+                name: !!nextProps.userProfile.name ? nextProps.userProfile.name : null,
+                username: !!nextProps.userProfile.username ? nextProps.userProfile.username : null,
+                profileImage: !!nextProps.userProfile.profileImage ? nextProps.userProfile.profileImage : this.state.profileImage,
             })
         }
     }
@@ -172,6 +172,7 @@ class ProfileSettingsScreen extends Component {
             imageSource = this.state.profileImage;
         } 
 
+        console.log(imageSource);
         let dimensions = !!imageSource ? 90 : 72;
 
         return (
@@ -216,7 +217,7 @@ class ProfileSettingsScreen extends Component {
                     onChangeText={name => this.setState({ name })}
                     onSubmitEditing={null}
                     placeholder={"Add Name"}
-                    value={this.state.name}
+                    value={!!this.state.name ? !!this.state.name : ''}
                     label={"Full Name"}
                     showError={false}
                 />
@@ -224,7 +225,7 @@ class ProfileSettingsScreen extends Component {
                     onChangeText={street => this.setState({ street })}
                     onSubmitEditing={null}
                     placeholder={"Add Address"}
-                    value={this.state.street}
+                    value={!!this.state.street ? !!this.state.street : ''}
                     label={"Preferred Shipping Address"}
                     showError={false}
                 />
@@ -235,7 +236,7 @@ class ProfileSettingsScreen extends Component {
                             onChangeText={city => this.setState({ city })}
                             onSubmitEditing={null}
                             placeholder={"Add City"}
-                            value={this.state.city}
+                            value={!!this.state.city ? !!this.state.city : ''}
                             label={"City"}
                             showError={false}
                         />
@@ -246,7 +247,7 @@ class ProfileSettingsScreen extends Component {
                             onChangeText={state => this.setState({ state })}
                             onSubmitEditing={null}
                             placeholder={"Add State"}
-                            value={this.state.state}
+                            value={!!this.state.state ? !!this.state.state : ''}
                             label={"State (Abbr.)"}
                             showError={false}
                         />
@@ -257,7 +258,7 @@ class ProfileSettingsScreen extends Component {
                         onChangeText={zipcode => this.setState({ zipcode })}
                         onSubmitEditing={null}
                         placeholder={"Add ZIP"}
-                        value={this.state.zipcode}
+                        value={!!this.state.zipcode ? !!this.state.zipcode : ''}
                         label={"ZIP code"}
                         showError={false}
                         keyboardType='numeric'
@@ -268,7 +269,7 @@ class ProfileSettingsScreen extends Component {
                     onChangeText={username => this.setState({ username })}
                     onSubmitEditing={null}
                     placeholder={"Add Username"}
-                    value={this.state.username}
+                    value={!!this.state.username ? !!this.state.username : ''}
                     label={"Discogs Username"}
                     showError={false}
                 /> 
@@ -277,6 +278,7 @@ class ProfileSettingsScreen extends Component {
     }
 
     _renderProfileView() {
+        console.log('im here');
         return (
             <View style={{ paddingLeft: 21, paddingTop: 5 }}>
                 <ProfileInfoCell 
@@ -299,13 +301,18 @@ class ProfileSettingsScreen extends Component {
     }
   
     render() {
+        console.log(this.state);
+        console.log(this.props.userProfile);
         let renderForm = null;
         if (this.state.isEditing) {
             renderForm = this._renderEditProfileView();
         } else if (typeof this.props.userProfile !== 'undefined'){
-            console.log(this.props.userProfile);
-            console.log(this.state);
-            if ((!!this.props.userProfile.name && this.props.userProfile.name !== false) || (!!this.props.userProfile.address && this.props.userProfile.address.city !== false) || (!!this.props.userProfile.username && this.props.userProfile.username !== false)) {
+            const shouldShowProfile = this.props.userProfile !== null 
+                                      && this.props.userProfile.name !== null 
+                                      && (!!this.props.userProfile.address &&  !!this.props.userProfile.address !== null) 
+                                      && this.props.userProfile.address.city !== null 
+                                      && this.props.userProfile.username !== null;
+            if (shouldShowProfile) {
                 renderForm = this._renderProfileView();
             } else {
                 renderForm = this._renderNoInformationProvidedView();
