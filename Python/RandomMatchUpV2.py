@@ -4,6 +4,7 @@
 ## Version 1: 4/5/16
 ## Version 2: 6/20/16
 ## Version 3: 4/11/17 - Addition of Will Wagner, Perry Krum was added in March '17
+## Last Time Updated: 11/05/2018
 
 from random import randint
 
@@ -14,10 +15,10 @@ sendList = ["Jake Heninger","Adam Hernandez", "Matt Bata","Adam Hernandez","Adam
 # All members that can recieve a vinyl
 recList = ["Jake Heninger","Nate Ley", "Matt Bata","Adam Hernandez","Adam Malcore","DJ Ley","Perry Krum","Will Wagner"]
 # History of past send/recieve matchups - covers the last month
-history = [[("Perry Krum", "Adam Hernandez"),("Adam Hernandez", "Will Wagner"),("Jake Heninger", "Nate Ley"),("Adam Malcore", "DJ Ley"),("DJ Ley", "Jake Heninger"),("Matt Bata", "Adam Malcore"),("Nate Ley", "Perry Krum"),("Will Wagner","Matt Bata")],
-          [("Perry Krum", "Will Wagner"),("Adam Hernandez", "Adam Malcore"),("Adam Malcore", "Adam Hernandez"),("Jake Heninger", "Matt Bata"),("Matt Bata", "DJ Ley"),("Nate Ley", "Jake Heninger"),("Will Wagner","Nate Ley"),("DJ Ley", "Perry Krum")],
+history = [[("Perry Krum", "Will Wagner"),("Adam Hernandez", "Adam Malcore"),("Adam Malcore", "Adam Hernandez"),("Jake Heninger", "Matt Bata"),("Matt Bata", "DJ Ley"),("Nate Ley", "Jake Heninger"),("Will Wagner","Nate Ley"),("DJ Ley", "Perry Krum")],
           [("Jake Heninger", "DJ Ley"),("Perry Krumenacher", "Matt Bata"),("Will Wagner", "Adam Hernandez"),("Adam Malcore", "Jake Heninger"),("Perry Krumenacher", "Matt Bata"),("DJ Ley", "Will Wagner"),("Adam Hernandez", "Nate Ley"),("Nate Ley", "Adam Malcore")],
-          [("Adam Malcore", "Will Wagner"),("Adam Hernandez", "Matt Bata"),("Nate Ley", "Adam Hernandez"),("DJ Ley", "Nate Ley"),("Matt Bata", "Jake Heninger"),("Perry Krumenacher", "DJ Ley"),("Will Wagner", "Adam Malcore"),("Jake Heninger", "Perry Krumenacher")]]
+          [("Adam Malcore", "Will Wagner"),("Adam Hernandez", "Matt Bata"),("Nate Ley", "Adam Hernandez"),("DJ Ley", "Nate Ley"),("Matt Bata", "Jake Heninger"),("Perry Krumenacher", "DJ Ley"),("Will Wagner", "Adam Malcore"),("Jake Heninger", "Perry Krumenacher")],
+          [("Nate Ley", "Will Wagner"),("DJ Ley", "Matt Bata"),("Jake Heninger", "Adam Hernandez"),("Adam Malcore", "Nate Ley"),("Will Wagner", "Jake Heninger"),("Adam Hernandez", "DJ Ley"),("Perry Krumenacher", "Adam Malcore"),("Matt Bata", "Perry Krumenacher")]]
 
 '''
     May
@@ -43,6 +44,8 @@ history = [[("Perry Krum", "Adam Hernandez"),("Adam Hernandez", "Will Wagner"),(
     ("Adam Malcore", "Will Wagner"),("Adam Hernandez", "Matt Bata"),("Nate Ley", "Adam Hernandez"),("DJ Ley", "Nate Ley"),("Matt Bata", "Jake Heninger"),("Perry Krumenacher", "DJ Ley"),("Will Wagner", "Adam Malcore"),("Jake Heninger", "Perry Krumenacher")
     August
     ("Nate Ley", "Will Wagner"),("DJ Ley", "Matt Bata"),("Jake Heninger", "Adam Hernandez"),("Adam Malcore", "Nate Ley"),("Will Wagner", "Jake Heninger"),("Adam Hernandez", "DJ Ley"),("Perry Krumenacher", "Adam Malcore"),("Matt Bata", "Perry Krumenacher")
+    November
+    ("Adam Malcore", "Matt Bata"),("Adam Hernandez", "Will Wagner"),("Nate Ley", "DJ Ley"),("Perry Krumenacher", "Nate Ley"),("Nate Ley", "Perry Krumenacher"),("Jake Heninger", "Adam Malcore"),("Matt Bata", "Adam Hernandez"),("DJ Ley", "Jake Heninger")
     '''
 matchUps = []
 

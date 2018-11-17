@@ -47,6 +47,7 @@ export const ExchangeTabNavigation = TabNavigator({
 });
 
 export const AuthenticationNavigation = StackNavigator({
+    ExchangeDetailScreen: { screen: ExchangeDetailScreen, navigationOptions: { header: null } },
     AuthenticationMain: { screen: AuthenticationMain, navigationOptions: { header: null } },
     AuthenticationSignUpEmail: { screen: AuthenticationSignUpEmail, navigationOptions: { header: null } },
     AuthenticationSignUpPassword: { screen: AuthenticationSignUpPassword, navigationOptions: { header: null } },
@@ -54,6 +55,6 @@ export const AuthenticationNavigation = StackNavigator({
     AuthenicationSignIn: { screen: AuthenicationSignIn, navigationOptions: { header: null } },
     ExchangeTabNavigation: { screen: ExchangeTabNavigation, navigationOptions: { header: null } },
 }, {
-    initialRouteName: AuthenticationMain,
+    initialRouteName: ExchangeDetailScreen,
 });
 

@@ -94,8 +94,10 @@ class AuthenticationSignIn extends Component {
       <View style={backgroundContainer}>
           {this.props.isLoading && <Loader />}
           
-          <BackButtonHeader onPress={this.onBackButtonPress.bind(this)} />
-          
+          <View style={{ flex: 1, alignSelf: 'flex-start' }}>
+            <BackButtonHeader onPress={this.onBackButtonPress.bind(this)} />
+          </View>
+
           <View style={emailContainer}>
             <InputField 
               onChangeText={email => this.setState({ email })}
@@ -141,14 +143,15 @@ const styles = {
     justifyContent: 'center',
   },
   emailContainer: {
-    marginTop: em(4.75),
-    flex: 1,
+    marginBottom: -em(2),
+    //flex: 1,
   },
   passwordContainer: {
-    flex: 1,
+    //marginBottom: em(3),
+    //flex: 1,
   },
   buttonContainer: {
-    marginBottom: em(21),
+    marginBottom: em(10),
     flex: 1,
   }
 }
