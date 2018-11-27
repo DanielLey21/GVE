@@ -32,6 +32,8 @@ export const updateProfileImage = (user) => {
         }).catch(error => {
             // PUT ERROR FOR UPLOADING IMAGES
             // MAKE KANBAN USER STORY
+            console.log('updateProfileImage error');
+            console.log(error);
         })
     }
 };
@@ -94,6 +96,7 @@ const uploadUserProfileImageToStorage = (dispatch, profileImageUri) => {
 const updateUserProfileOnDatabase = (dispatch, user) => {
     const { currentUser } = firebase.auth();
     let userProfile = user; 
+    console.log(user);
     dispatch({ type: PROFILE_UPDATE_USER_PROFILE });
     firebase.database().ref(`/users/${currentUser.uid}/userProfile`)
         .update(userProfile)

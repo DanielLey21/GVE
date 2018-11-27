@@ -3,11 +3,11 @@ import { TabNavigator, StackNavigator } from 'react-navigation';
 import { Text, TouchableOpacity } from 'react-native';
 
 // Authentication Screens
-import AuthenticationMain from '../authentication/screens/AuthenticationMain';
-import AuthenticationSignUpEmail from '../authentication/screens/AuthenticationSignUpEmail';
-import AuthenticationSignUpPassword from '../authentication/screens/AuthenticationSignUpPassword';
-import AuthenticationSignUpConfirmPassword from '../authentication/screens/AuthenticationSignUpConfirmPassword';
-import AuthenicationSignIn from '../authentication/screens/AuthenticationSignIn';
+import AuthenticationMain from '../Authentication/screens/AuthenticationMain';
+import AuthenticationSignUpEmail from '../Authentication/screens/AuthenticationSignUpEmail';
+import AuthenticationSignUpPassword from '../Authentication/screens/AuthenticationSignUpPassword';
+import AuthenticationSignUpConfirmPassword from '../Authentication/screens/AuthenticationSignUpConfirmPassword';
+import AuthenicationSignIn from '../Authentication/screens/AuthenticationSignIn';
 
 import theme from '../styles/theme';
 

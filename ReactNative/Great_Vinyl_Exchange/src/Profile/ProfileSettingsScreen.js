@@ -301,8 +301,6 @@ class ProfileSettingsScreen extends Component {
     }
   
     render() {
-        console.log(this.state);
-        console.log(this.props.userProfile);
         let renderForm = null;
         if (this.state.isEditing) {
             renderForm = this._renderEditProfileView();
