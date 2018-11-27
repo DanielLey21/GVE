@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import AuthenticationReducer from './authentication/AuthenticationReducer';
+import AuthenticationReducer from './Authentication/AuthenticationReducer';
 import ProfileReducer from './Profile/ProfileReducer'
 import NavigationReducer from './navigation/NavigationReducer';
 
